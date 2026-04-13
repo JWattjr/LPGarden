@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LP Garden 🌱
 
-## Getting Started
+> **AI-Powered LP Range Optimization on X Layer.** Stop guessing your Uniswap V3 ranges. Let the agent calculate, commit, and monitor for you.
 
-First, run the development server:
+[![Live Demo](https://img.shields.io/badge/Status-Hackathon_MVP-success)](#) 
+[![X Layer](https://img.shields.io/badge/Network-X_Layer_Testnet-black)](#)
+[![Stack](https://img.shields.io/badge/Stack-Next.js_|_Wagmi_|_Foundry-blue)](#)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🏛 Architecture 
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    LP Garden Frontend                     │
+│              Next.js 15 · React 19 · wagmi                │
+├──────────────┬───────────────────────┬───────────────────┤
+│  /planner    │  Agent Engine (TS)    │  /monitor         │
+│  Pool select │  recommend.ts         │  Read strategies  │
+│  Live prices │  simulate.ts          │  from X Layer     │
+│  (DeFiLlama)│  action.ts            │  via useReadContract│
+├──────────────┴───────────────────────┴───────────────────┤
+│                    wagmi / viem                            │
+│         useWriteContract ←→ useReadContract               │
+├──────────────────────────────────────────────────────────┤
+│               X Layer Testnet (Chain 195)                 │
+│          GardenStrategyRegistry.sol (Foundry)             │
+│   createStrategy · updateStrategy · closeStrategy         │
+└──────────────────────────────────────────────────────────┘
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+LP Garden is built in two layers:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Intelligence Layer (Offchain):** A TypeScript agent engine pulls **live real-time pricing via DeFiLlama**, calculates token volatility classes, and runs 30-day Monte Carlo-style simulations to predict Impermanent Loss vs. Fee Accrual across three scenario outcomes.
+- **Execution Layer (Onchain):** Users securely sign and commit their optimal LP strategy parameters to `GardenStrategyRegistry.sol` on **X Layer Testnet**. The contract stores range bounds, risk levels, and recommended actions as a verifiable source of truth for future autonomous execution agents.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Quick Start
 
-## Learn More
+```bash
+# 1. Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# 2. Start the development server
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 3. Open http://localhost:3000
+# 4. Connect wallet to X Layer Testnet
+# 5. Pick a pool → Agent analyzes → Commit strategy onchain
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ⛓️ Smart Contract
 
-## Deploy on Vercel
+**Contract:** `GardenStrategyRegistry.sol`  
+**Network:** X Layer Testnet (Chain ID: 195)  
+**Compiler:** Solidity ^0.8.20, Foundry
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Functions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Function | Type | Description |
+|---|---|---|
+| `createStrategy()` | Write | Commit a new LP range + risk level onchain |
+| `updateStrategy()` | Write | Modify bounds or status of an active strategy |
+| `closeStrategy()` | Write | Permanently close a strategy |
+| `getStrategiesByOwner()` | Read | Fetch all strategy IDs for a wallet |
+| `getStrategy()` | Read | Fetch full strategy struct by ID |
+
+### Running Tests
+
+```bash
+cd contracts
+forge test -vvv
+```
+
+## 🧠 Agent Engine
+
+The core intelligence lives in `src/lib/engine/`:
+
+- **`recommend.ts`** — Calculates optimal LP range width based on token volatility class (low/medium/high/extreme). Outputs price bounds, estimated APR with concentration multiplier, and IL risk score.
+- **`simulate.ts`** — Runs 3 scenario projections (Favorable/Neutral/Adverse) modeling 30-day fee accrual vs. impermanent loss for a given deposit amount.
+- **`action.ts`** — Decision tree that evaluates simulation outcomes + 24h price action to output a final action (Deploy/Wait/Widen/Rebalance/Exit) with confidence scoring.
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 15, React 19, Tailwind CSS v4 |
+| Web3 | wagmi v3, viem, ConnectKit |
+| Contracts | Foundry, Solidity ^0.8.20 |
+| Pricing | DeFiLlama API (live, no key required) |
+| Chain | X Layer Testnet (OKX) |
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── api/                # Server-side API routes (agent, pools)
+│   ├── monitor/            # Position monitoring dashboard
+│   └── planner/            # Pool selection + agent analysis
+├── components/
+│   ├── action/             # Deploy/commit UI
+│   ├── landing/            # Hero, features, how-it-works
+│   ├── monitor/            # StrategyCard (onchain read)
+│   ├── pool/               # PoolCard, LivePrice
+│   ├── recommendation/     # Agent output visualization
+│   ├── simulation/         # 30-day scenario cards
+│   └── ui/                 # Shared primitives (Card, Badge, TokenIcon)
+├── lib/
+│   ├── data/               # Token + pool definitions
+│   ├── engine/             # Agent logic (recommend, simulate, action)
+│   ├── web3/               # wagmi config, hooks, ABI
+│   └── types/              # TypeScript interfaces
+contracts/
+├── src/                    # Solidity source
+├── script/                 # Foundry deployment scripts
+└── test/                   # Foundry test suite
+```
