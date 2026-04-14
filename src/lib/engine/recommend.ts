@@ -3,6 +3,7 @@ import { Pool, LPRecommendation, RiskLevel } from "@/lib/types";
 /**
  * Pure heuristic recommendation engine for LP ranges based on volatility class.
  */
+// Applied merge fixes and ensured synchronization with origin/master.
 export function recommend(pool: Pool): LPRecommendation {
   const { currentPrice, volatilityClass, feeApr } = pool;
 
