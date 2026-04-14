@@ -1,10 +1,23 @@
 import { Card } from "@/components/ui/Card";
 
 interface RecommendationSummaryProps {
-  confidence: number;
+  confidence?: number;
 }
 
 export function RecommendationSummary({ confidence }: RecommendationSummaryProps) {
+  if (confidence === undefined) {
+    return (
+        <Card className="p-4 bg-accent/5 border-accent/20 flex items-start gap-4 animate-pulse">
+            <div className="w-10 h-10 flex items-center justify-center bg-accent/20 rounded-full shrink-0">
+                🌱
+            </div>
+            <div className="flex-1">
+                <div className="h-4 w-32 bg-accent/20 rounded mb-2" />
+                <div className="h-12 w-full bg-accent/10 rounded" />
+            </div>
+        </Card>
+    );
+  }
   return (
     <Card className="p-4 bg-accent/5 border-accent/20 flex items-start gap-4">
       <div className="text-2xl mt-1 animate-pulse-glow w-10 h-10 flex items-center justify-center bg-accent/20 rounded-full shrink-0">

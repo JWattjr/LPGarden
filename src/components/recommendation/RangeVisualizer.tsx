@@ -2,10 +2,19 @@ import { Card } from "@/components/ui/Card";
 import { LPRecommendation } from "@/lib/types";
 
 interface RangeVisualizerProps {
-  recommendation: LPRecommendation;
+  recommendation?: LPRecommendation;
 }
 
 export function RangeVisualizer({ recommendation }: RangeVisualizerProps) {
+  if (!recommendation) {
+    return (
+      <Card className="p-6 h-[280px] flex flex-col justify-center items-center bg-surface-2 animate-pulse border-card-border/50">
+        <div className="w-12 h-12 bg-card rounded-full mb-4" />
+        <div className="h-4 w-48 bg-card rounded" />
+      </Card>
+    );
+  }
+
   // Purely visual: calculate positions for a nice chart graphic
   const { currentPrice, rangeLow, rangeHigh } = recommendation;
   

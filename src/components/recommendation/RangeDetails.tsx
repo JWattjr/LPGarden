@@ -4,11 +4,23 @@ import { LPRecommendation, Pool } from "@/lib/types";
 import { formatPrice, formatAPR } from "@/lib/utils/format";
 
 interface RangeDetailsProps {
-  pool: Pool;
-  recommendation: LPRecommendation;
+  pool: Pool | null;
+  recommendation?: LPRecommendation;
 }
 
 export function RangeDetails({ pool, recommendation }: RangeDetailsProps) {
+  if (!pool || !recommendation) {
+    return (
+      <Card className="p-6 h-[250px] bg-surface-2 animate-pulse border-card-border/50">
+        <div className="h-6 w-48 bg-card rounded mb-4" />
+        <div className="grid grid-cols-2 gap-4">
+           <div className="h-16 bg-card rounded-xl" />
+           <div className="h-16 bg-card rounded-xl" />
+        </div>
+        <div className="h-10 w-full bg-card rounded-xl mt-4" />
+      </Card>
+    );
+  }
   return (
     <Card className="p-6">
       <div className="flex items-start justify-between mb-6">

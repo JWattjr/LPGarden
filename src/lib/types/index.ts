@@ -71,6 +71,19 @@ export interface ActionRecommendation {
   confidence: number; // 0-100
   rationale: string;
   urgency: "low" | "medium" | "high";
+  cognitive?: CognitiveRationale; // Optional LLM-generated reasoning
+}
+
+export interface CognitiveRationale {
+  steps: {
+    title: string;
+    content: string;
+    type: "scanning" | "simulating" | "deciding";
+  }[];
+  analysis: string;
+  riskAssessment: string;
+  marketContext: string;
+  verdict: string;
 }
 
 // ─── Position & Health Types ────────────────────────────────────────

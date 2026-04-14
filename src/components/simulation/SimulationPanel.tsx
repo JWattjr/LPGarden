@@ -2,10 +2,22 @@ import { ScenarioSimulation } from "@/lib/types";
 import { ScenarioCard } from "./ScenarioCard";
 
 interface SimulationPanelProps {
-  simulation: ScenarioSimulation;
+  simulation?: ScenarioSimulation;
 }
 
 export function SimulationPanel({ simulation }: SimulationPanelProps) {
+  if (!simulation) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-10 w-64 bg-surface-2 rounded mb-4" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="h-48 bg-surface-2 rounded-2xl" />
+          <div className="h-48 bg-surface-2 rounded-2xl" />
+          <div className="h-48 bg-surface-2 rounded-2xl" />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-4">
       <div>

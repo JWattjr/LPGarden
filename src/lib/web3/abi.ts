@@ -66,4 +66,4 @@ export const API_GARDEN_STRATEGY_REGISTRY = [
 ] as const;
 
 // IMPORTANT: Replace this with the actual deployed address after running Step 4
-export const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000" as const;
+export const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0xca897becDBd37456331abB362e7ee9F15e9F41c0") as `0x${string}`;

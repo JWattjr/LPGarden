@@ -11,9 +11,9 @@ import { useCreateStrategy, RiskLevel } from "@/lib/web3/hooks";
 import { usePlanner } from "@/lib/context/PlannerContext";
 
 interface ActionCardProps {
-  pool: Pool;
-  recommendation: LPRecommendation;
-  actionRec: ActionRecommendation;
+  pool: Pool | null;
+  recommendation?: LPRecommendation;
+  actionRec?: ActionRecommendation;
 }
 
 export function ActionCard({ pool, recommendation, actionRec }: ActionCardProps) {
@@ -23,6 +23,17 @@ export function ActionCard({ pool, recommendation, actionRec }: ActionCardProps)
   const [depositAmount, setDepositAmount] = useState<number>(1000);
 
   const { createStrategy, isConfirmingWallet, isPendingTx, isConfirmed, error, hash } = useCreateStrategy();
+
+  if (!pool || !recommendation || !actionRec) {
+    return (
+      <Card className="sticky top-24 p-6 border-card-border bg-surface-2 animate-pulse min-h-[400px]">
+        <div className="h-6 w-32 bg-card rounded mb-4" />
+        <div className="h-10 w-24 bg-card rounded mb-6" />
+        <div className="h-20 w-full bg-card rounded mb-8" />
+        <div className="h-12 w-full bg-card rounded" />
+      </Card>
+    );
+  }
 
   const isDeploy = actionRec.action === "deploy";
   
