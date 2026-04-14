@@ -2,8 +2,7 @@
 
 import { useAgentAnalysis } from '@/lib/engine/hooks'
 import { RangeDetails } from '@/components/recommendation/RangeDetails'
-import { RangeVisualizer } from '@/components/recommendation/RangeVisualizer'
-import { RecommendationSummary } from '@/components/recommendation/RecommendationSummary'
+
 import { SimulationPanel } from '@/components/simulation/SimulationPanel'
 import { ActionCard } from '@/components/action/ActionCard'
 import { CognitiveLog } from '@/components/recommendation/CognitiveLog'
@@ -31,8 +30,7 @@ export function AgentDashboard({ poolId }: { poolId: string }) {
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       {/* Main Content Area */}
       <div className="lg:col-span-3 space-y-6">
-        <RecommendationSummary confidence={recommendation?.confidence} />
-        <RangeVisualizer recommendation={recommendation} />
+        <CognitiveLog cognitive={action?.cognitive} isLoading={isLoading} />
         {pool && <RangeDetails pool={pool} recommendation={recommendation} />}
         <SimulationPanel simulation={simulation} />
       </div>
@@ -44,7 +42,6 @@ export function AgentDashboard({ poolId }: { poolId: string }) {
           recommendation={recommendation}
           actionRec={action}
         />
-        <CognitiveLog cognitive={action?.cognitive} isLoading={isLoading} />
       </div>
     </div>
   )

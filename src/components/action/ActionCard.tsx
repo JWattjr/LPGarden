@@ -88,7 +88,7 @@ export function ActionCard({ pool, recommendation, actionRec }: ActionCardProps)
         </div>
         
         <p className="text-sm text-foreground/80 leading-relaxed mb-8">
-          {actionRec.rationale}
+          Deploy liquidity based on the results of the thinking process.
         </p>
 
         {/* Transaction Error Alert */}
@@ -103,7 +103,7 @@ export function ActionCard({ pool, recommendation, actionRec }: ActionCardProps)
           <div className="mb-4 p-3 rounded-lg bg-risk-low/10 border border-risk-low/30 text-risk-low text-xs flex flex-col gap-1">
             <span>Transaction confirmed!</span>
             <a 
-              href={`https://testnet.explorer.xlayer.tech/tx/${hash}`} 
+              href={`https://web3.okx.com/explorer/x-layer-testnet/tx/${hash}`} 
               target="_blank" 
               rel="noopener noreferrer"
               className="underline hover:text-white transition-colors"
