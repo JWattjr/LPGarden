@@ -15,6 +15,8 @@ export interface AgentResponse {
  * Centralizing this ensures all components (Dashboard, LivePrice, StrategyCard)
  * use the same query configuration and fetcher.
  */
+import { executeLiquidityPlan } from "@/lib/agent/onchain-os";
+
 export function useAgentAnalysis(poolId: string | undefined) {
   return useQuery({
     queryKey: ["agent-analysis", poolId],
@@ -29,10 +31,17 @@ export function useAgentAnalysis(poolId: string | undefined) {
       
       if (!res.ok) throw new Error("Agent failed to analyze");
       const json = await res.json();
-      return json.data as AgentResponse;
+      const analysis = json.data as AgentResponse;
+
+      // 🛑 NEW: Perform REAL Agentic Signature Bridge
+      const auth = await executeLiquidityPlan(analysis.pool, analysis.recommendation);
+      
+      return {
+        ...analysis,
+        authorization: auth // Dynamic signature from the local CLI
+      };
     },
     enabled: !!poolId,
-    // The agent analysis shouldn't refresh constantly, cache it for 1 minute
     staleTime: 60000,
   });
 }

@@ -9,6 +9,8 @@ import { ActionCard } from '@/components/action/ActionCard'
 import { CognitiveLog } from '@/components/recommendation/CognitiveLog'
 import { getPoolById } from '@/lib/data/pools'
 
+import { AgentIdentityBanner } from '@/components/agent/AgentIdentityBanner'
+
 export function AgentDashboard({ poolId }: { poolId: string }) {
   const { data, isLoading, error } = useAgentAnalysis(poolId)
   const initialPool = getPoolById(poolId)
@@ -28,14 +30,17 @@ export function AgentDashboard({ poolId }: { poolId: string }) {
   const action = data?.action
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      {/* Main Content Area */}
-      <div className="lg:col-span-3 space-y-6">
-        <RecommendationSummary confidence={recommendation?.confidence} />
-        <RangeVisualizer recommendation={recommendation} />
-        {pool && <RangeDetails pool={pool} recommendation={recommendation} />}
-        <SimulationPanel simulation={simulation} />
-      </div>
+    <div className="space-y-6">
+      <AgentIdentityBanner />
+      
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* Main Content Area */}
+        <div className="lg:col-span-3 space-y-6">
+          <RecommendationSummary confidence={recommendation?.confidence} />
+          <RangeVisualizer recommendation={recommendation} />
+          {pool && <RangeDetails pool={pool} recommendation={recommendation} />}
+          <SimulationPanel simulation={simulation} />
+        </div>
 
       {/* Sidebar / Action Area */}
       <div className="lg:col-span-2 space-y-6 relative">
@@ -47,5 +52,6 @@ export function AgentDashboard({ poolId }: { poolId: string }) {
         <CognitiveLog cognitive={action?.cognitive} isLoading={isLoading} />
       </div>
     </div>
+  </div>
   )
 }
