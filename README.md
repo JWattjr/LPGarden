@@ -101,8 +101,8 @@ As AI agents become the primary actors on **X Layer**, liquidity provision must 
 
 ## 👥 Team
 
-- **John**: Frontend Architecture & Web3 Integration
-- **James**: Agent Engine & Quantitative Logic
+- **Rune**: Frontend Architecture & Web3 Integration
+- **Velkan**: Agent Engine & Quantitative Logic
 
 ---
 
