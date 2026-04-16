@@ -13,7 +13,7 @@ const xLayerTestnetCustom = {
   blockExplorers: {
     default: {
       name: 'OKX Explorer',
-      url: 'https://www.okx.com/web3/explorer/xlayer-test',
+      url: 'https://web3.okx.com/explorer/x-layer-testnet',
     },
   },
 } as const

@@ -13,19 +13,16 @@ export function ScenarioCard({ outcome }: ScenarioCardProps) {
     favorable: {
       border: "border-risk-low/30 hover:border-risk-low/60",
       bg: "bg-risk-low/5",
-      icon: "✨",
       color: "text-risk-low"
     },
     neutral: {
       border: "border-card-border hover:border-muted",
       bg: "bg-surface-2",
-      icon: "⚖️",
       color: "text-muted"
     },
     adverse: {
       border: "border-risk-high/30 hover:border-risk-high/60",
       bg: "bg-risk-high/5",
-      icon: "⚠️",
       color: "text-risk-high"
     }
   }[outcome.type];
@@ -35,7 +32,6 @@ export function ScenarioCard({ outcome }: ScenarioCardProps) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-xl">{theme.icon}</span>
           <h4 className="font-semibold">{outcome.label}</h4>
         </div>
         <div className="text-right">

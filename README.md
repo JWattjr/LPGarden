@@ -1,4 +1,5 @@
 # LP Garden 🌱
+
 ## Autonomous LP Range Optimization on X Layer
 
 > **"The intelligent liquidity coordination layer for the X Layer agentic economy."**
@@ -15,19 +16,19 @@ LP Garden operates a hybrid architecture that balances off-chain intelligence wi
 graph TD
     User((User)) -->|Connects| FE[LP Garden Frontend]
     FE -->|Pool Selection| AgentBrain[AI Agent Engine]
-    
+
     subgraph "Intelligence Layer (Off-chain)"
         AgentBrain -->|Fetch Prices| DeFiLlama[DeFiLlama Live API]
         AgentBrain -->|Logic| Recommend[recommend.ts]
         Recommend -->|Simulate Scenarios| Simulate[simulate.ts]
         Simulate -->|Action Logic| Action[action.ts]
     end
-    
+
     subgraph "Onchain OS Integration"
         FE -->|Authorize| AgentWallet[OKX Agentic Wallet]
         AgentWallet -->|TEE Signing| Identity[Onchain Agent Identity]
     end
-    
+
     subgraph "Execution Layer (X Layer Testnet)"
         Identity -->|Commit Strategy| Registry[GardenStrategyRegistry.sol]
         Registry -->|Emit Events| Events[StrategyCreated/Updated]
@@ -35,6 +36,7 @@ graph TD
 ```
 
 ### Key Components
+
 - **Agent Engine**: Performs real-time volatility classification and runs 30-day IL vs. Fee simulations across three market scenarios.
 - **Onchain OS Skill**: Implements a dedicated "Uniswap Liquidity Planning" skill for verifiable strategy authorization.
 - **Agentic Wallet**: A TEE-protected identity that acts as the "Manager" of the user's long-term liquidity strategy.
@@ -58,13 +60,17 @@ LP Garden utilizes the **OKX Agentic Wallet** as its primary onchain identity. T
 LP Garden is built using core modules from the **Onchain OS Skills** ecosystem to bridge the gap between AI reasoning and on-chain execution.
 
 ### `okx-agentic-wallet` Skill
+
 We use this skill to manage the full lifecycle of the strategy agent:
+
 - **Authentication**: Secure email-based OTP login to restore the Agent's identity.
 - **Verification**: TEE-based signing (personalSign) for every strategy "snapshot" before it is committed on-chain.
 - **Asset Management**: Future capability to autonomously rebalance positions based on simulation results.
 
 ### `uniswap-liquidity-planning` Core Module
+
 LP Garden integrates a custom core module following the Uniswap AI skill structure:
+
 - **`src/lib/agent/onchain-os.ts`**: Encapsulates the specific logic for Uniswap V3 concentrated liquidity calculation, mapping volatility (Low/Med/High/Extreme) to optimal tick ranges.
 
 ---
@@ -72,12 +78,14 @@ LP Garden integrates a custom core module following the Uniswap AI skill structu
 ## ⛓️ Deployment & Working Mechanics
 
 ### Smart Contract
+
 - **Contract Name**: `GardenStrategyRegistry.sol`
 - **Address**: `0xca897becDBd37456331abB362e7ee9F15e9F41c0`
 - **Network**: X Layer Testnet (Chain ID 195)
 - **Verified**: Yes (Foundry Test Suite 100% Coverage)
 
 ### Working Mechanics
+
 1. **Analysis**: The agent fetches real-time pool metrics from DeFiLlama.
 2. **Simulation**: Runs 30-day Monte Carlo projections for Bull, Bear, and Crab scenarios.
 3. **Recommendation**: Outputs a deterministic recommendation (Deploy, Wait, Widen, Rebalance, or Exit).
@@ -92,6 +100,7 @@ As AI agents become the primary actors on **X Layer**, liquidity provision must 
 ---
 
 ## 👥 Team
+
 - **John**: Frontend Architecture & Web3 Integration
 - **James**: Agent Engine & Quantitative Logic
 

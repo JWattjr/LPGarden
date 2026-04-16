@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.69",
-    "@nanostores/react": "github:ai/react",
+    "@ai-sdk/react": "^3.0.0",
     "@tanstack/react-query": "^5.99.0",
     "ai": "^6.0.159",
     "connectkit": "^1.9.2",
